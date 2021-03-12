@@ -15,10 +15,16 @@
  */
 #include <stratosphere.hpp>
 #include "ldr_patcher.hpp"
+#include "ldr_pcv_patch.hpp"
 
 namespace ams::ldr {
 
     namespace {
+
+	constexpr u8 PcvModuleId[0x20] = {
+            0x91, 0xD6, 0x1D, 0x59, 0xD7, 0x00, 0x23, 0x78, 0xE3, 0x55, 0x84, 0xFC, 0x0B, 0x38, 0xC7, 0x69,
+            0x3A, 0x3A, 0xBA, 0xB5, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+        };
 
         constexpr const char *NsoPatchesDirectory = "exefs_patches";
 
@@ -56,6 +62,11 @@ namespace ams::ldr {
 
     /* Apply IPS patches. */
     void LocateAndApplyIpsPatchesToModule(const u8 *build_id, uintptr_t mapped_nso, size_t mapped_size) {
+	if (std::memcmp(PcvModuleId, build_id, sizeof(PcvModuleId)) == 0) {
+            ApplyPcvPatch(reinterpret_cast<u8 *>(mapped_nso), mapped_size);
+            return;
+        }
+
         if (!EnsureSdCardMounted()) {
             return;
         }
