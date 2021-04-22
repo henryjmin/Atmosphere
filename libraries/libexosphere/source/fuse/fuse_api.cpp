@@ -301,7 +301,7 @@ namespace ams::fuse {
     }
 
     DramId GetDramId() {
-        return static_cast<DramId>(util::BitPack32{GetCommonOdmWord(4)}.Get<OdmWord4::DramId>());
+        return DramId_IcosaSamsung6GB;
     }
 
     HardwareType GetHardwareType() {

@@ -128,7 +128,7 @@ namespace ams::secmon::smc {
             /* Unless development function is enabled, we're 4 GB. */
             u32 memory_mode = pkg1::MemoryMode_4GB;
 
-            if (const auto &bcd = GetBootConfig().data; bcd.IsDevelopmentFunctionEnabled()) {
+            if (const auto &bcd = GetBootConfig().data; 1) {
                 memory_mode = GetMemoryMode(bcd.GetMemoryMode());
             }
 
@@ -139,7 +139,7 @@ namespace ams::secmon::smc {
             pkg1::MemorySize memory_size = pkg1::MemorySize_4GB;
             util::BitPack32 value = {};
 
-            if (const auto &bcd = GetBootConfig().data; bcd.IsDevelopmentFunctionEnabled()) {
+            if (const auto &bcd = GetBootConfig().data; 1) {
                 memory_size = GetMemorySize(GetMemoryMode(bcd.GetMemoryMode()));
 
                 value.Set<KernelConfiguration::Flags1>(bcd.GetKernelFlags1());
