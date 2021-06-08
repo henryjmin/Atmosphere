@@ -15,6 +15,7 @@
  */
 #include <stratosphere.hpp>
 #include "ldr_patcher.hpp"
+#include "ldr_pcv_patch.hpp"
 
 namespace ams::ldr {
 
@@ -138,6 +139,13 @@ namespace ams::ldr {
                         }
                     }
                 }
+            }
+        }
+
+        for(unsigned int i = 0; i < sizeof(PcvInfo)/sizeof(PcvInfo[0]); i++) {
+            if (std::memcmp(PcvInfo[i].ModuleId, build_id, 20) == 0) {
+                ApplyPcvPatch(reinterpret_cast<u8 *>(mapped_nso), mapped_size, i);
+                return;
             }
         }
     }
