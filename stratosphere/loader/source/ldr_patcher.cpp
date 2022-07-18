@@ -15,6 +15,7 @@
  */
 #include <stratosphere.hpp>
 #include "ldr_patcher.hpp"
+#include "ldr_pcv_patch.hpp"
 
 namespace ams::ldr {
 
@@ -140,6 +141,10 @@ namespace ams::ldr {
                 }
             }
         }
+
+        /* Attempt to apply pcv patches */
+        ApplyPcvPatch(reinterpret_cast<u8 *>(mapped_nso), std::addressof(module_id));
+
     }
 
 }
